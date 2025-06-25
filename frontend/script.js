@@ -6,7 +6,7 @@ const charCounter = document.getElementById('char-counter');
 const copyButton = document.getElementById('copy-button');
 const modeButtons = document.querySelectorAll('.mode-button');
 
-const backendBaseUrl = 'https://your-render-url-here.onrender.com';
+const backendBaseUrl = 'https://moodcode.onrender.com';
 
 let selectedMode = 'mood'; 
 
