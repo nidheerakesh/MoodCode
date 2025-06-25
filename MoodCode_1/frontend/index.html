@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoodDecode</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-blue-100">
+
+<div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-lg space-y-4">
+    <h1 class="text-2xl font-bold text-center">MoodDecode</h1>
+    
+    <textarea id="text-input" class="w-full border rounded-lg p-2" rows="4" placeholder="Enter text here..."></textarea>
+
+    <div class="flex justify-between space-x-2">
+        <button id="mood-btn" class="flex-1 bg-blue-500 text-white py-2 rounded-lg">Analyze Mood</button>
+        <button id="crisis-btn" class="flex-1 bg-red-500 text-white py-2 rounded-lg">Detect Crisis</button>
+        <button id="summary-btn" class="flex-1 bg-green-500 text-white py-2 rounded-lg">Summarize</button>
+    </div>
+
+    <div id="output" class="mt-4 bg-gray-100 p-4 rounded-lg min-h-[4rem]"></div>
+</div>
+
+<script>
+const baseURL = "http://127.0.0.1:5000";
+
+document.getElementById('mood-btn').onclick = async () => {
+    const text = document.getElementById('text-input').value;
+    const res = await fetch(baseURL + '/analyze_mood', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ text })
+    });
+    const data = await res.json();
+    document.getElementById('output').textContent = "Detected Emotion: " + data.emotion;
+};
+
+document.getElementById('crisis-btn').onclick = async () => {
+    const text = document.getElementById('text-input').value;
+    const res = await fetch(baseURL + '/detect_crisis', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ text })
+    });
+    const data = await res.json();
+    document.getElementById('output').textContent = "Crisis Detected: " + data.crisis_detected;
+};
+
+document.getElementById('summary-btn').onclick = async () => {
+    const text = document.getElementById('text-input').value;
+    const res = await fetch(baseURL + '/summarize', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ text })
+    });
+    const data = await res.json();
+    document.getElementById('output').textContent = "Summary: " + data.summary;
+};
+</script>
+
+</body>
+</html>
